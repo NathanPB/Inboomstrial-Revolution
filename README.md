@@ -1,5 +1,5 @@
 <p align="center"><img src="https://i.imgur.com/1ZwHaAt.png"></p>
-<h3 align="center">Industrial Revolution</h3>
+<h3 align="center">Industrial ReZolution</h3>
 <p align="center">An Industrial mod made for Fabric.</p>
 <p align="center">
   <a title="Fabric API" href="https://github.com/FabricMC/fabric">

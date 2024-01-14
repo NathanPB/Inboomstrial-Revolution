@@ -136,7 +136,7 @@ object IndustrialRevolution : ModInitializer {
     val MOD_GROUP_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, identifier("mod_group"))
 
     val MOD_GROUP: ItemGroup =
-        FabricItemGroup.builder().icon { ItemStack { MachineRegistry.PULVERIZER_REGISTRY.block(Tier.MK4).asItem() } }.displayName(Text.literal("indrev.indrev_group")).build()
+        FabricItemGroup.builder().icon { ItemStack { MachineRegistry.PULVERIZER_REGISTRY.block(Tier.MK4).asItem() } }.displayName(Text.literal("Industrial ReZolution")).build()
 
     val COOLERS_TAG: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, identifier("coolers"))
     val WRENCH_TAG: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, Identifier("c:wrenches"))
