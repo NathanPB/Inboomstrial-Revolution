@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "indrev:killswitch_enhancer"
+    },
+    "title": {
+      "translate": "advancements.indrev.killswitch_enhancer"
+    },
+    "description": {
+      "translate": "advancements.indrev.killswitch_enhancer.description"
+    }
+  },
+  "parent": "indrev:empty_enhancer",
+  "criteria": {
+    "checkInv": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["indrev:killswitch_enhancer"]
+          }
+        ]
+      }
+    }
+  }
+}

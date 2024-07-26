@@ -35,6 +35,14 @@ open class CraftingComponent<T : IRRecipe>(private val index: Int, val machine: 
     private var currentRecipe: T? = null
 
     fun tick() {
+        if (temperatureComponent?.isKillswitchActivated == true) {
+            temperatureComponent?.tick(false)
+            processTime = 0
+            totalProcessTime = 0
+            markDirty()
+            return
+        }
+
         val inventory = inventoryComponent.inventory
         val inputInventory = inputSlots!!.map { inventory.getStack(it) }
         val inputTanks = fluidComponent?.inputTanks?.map { fluidComponent!![it] } ?: emptyList()

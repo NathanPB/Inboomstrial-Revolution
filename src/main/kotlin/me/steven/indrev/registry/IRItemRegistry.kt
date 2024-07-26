@@ -193,6 +193,7 @@ object IRItemRegistry {
         identifier("blast_furnace_enhancer").item(BLAST_FURNACE_UPGRADE)
         identifier("smoker_enhancer").item(SMOKER_UPGRADE)
         identifier("damage_enhancer").item(DAMAGE_UPGRADE)
+        identifier("killswitch_enhancer").item(KILLSWITCH_UPGRADE)
 
         identifier("energy_reader").item(ENERGY_READER)
 
@@ -353,6 +354,7 @@ object IRItemRegistry {
     val BLAST_FURNACE_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.BLAST_FURNACE)
     val SMOKER_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.SMOKER)
     val DAMAGE_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.DAMAGE)
+    val KILLSWITCH_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.KILLSWITCH, true)
 
     val WRENCH = object : Item(itemSettings().maxCount(1)) {
         override fun useOnBlock(context: ItemUsageContext): ActionResult {
