@@ -9,7 +9,7 @@ import me.steven.indrev.utils.component1
 import me.steven.indrev.utils.component2
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import kotlin.math.absoluteValue
+import net.minecraft.world.World
 
 class TemperatureComponent(
     private val blockEntity: BaseBlockEntity,
@@ -56,6 +56,16 @@ class TemperatureComponent(
         return (coolerItem.heatFactor * -1).coerceAtLeast(0.0)
     }
 
+    private fun getExplosionPower(): Float {
+        val tempLowerBound = optimalRange.last
+
+        val powerUpperBound = 25f
+        val powerLowerBound = 3f
+
+        val power = powerLowerBound + (temperature - tempLowerBound) * (powerUpperBound - powerLowerBound) / (5000 - tempLowerBound)
+        return power.toFloat().coerceIn(powerLowerBound, powerUpperBound)
+    }
+
     fun tick(shouldHeatUp: Boolean) {
         ticks++
         val machine = blockEntity as? MachineBlockEntity<*>
@@ -86,6 +96,18 @@ class TemperatureComponent(
             temperature -= getCoolingSpeed()
         } else if (ticks % 15 == 0) {
             temperature = (temperature + (2 * random.nextFloat() - 1) / 2).coerceIn(20.0, 35.0)
+        }
+
+        if (temperature >= limit) {
+            blockEntity.world?.createExplosion(
+                null,
+                blockEntity.pos.x.toDouble(),
+                blockEntity.pos.y.toDouble(),
+                blockEntity.pos.z.toDouble(),
+                getExplosionPower(),
+                false,
+                World.ExplosionSourceType.BLOCK
+            )
         }
     }
 }
