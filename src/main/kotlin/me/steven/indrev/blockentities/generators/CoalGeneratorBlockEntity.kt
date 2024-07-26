@@ -13,7 +13,7 @@ class CoalGeneratorBlockEntity(pos: BlockPos, state: BlockState) :
     SolidFuelGeneratorBlockEntity(Tier.MK1, MachineRegistry.COAL_GENERATOR_REGISTRY, pos, state) {
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.08, 900..2000, 2500)
+        this.temperatureComponent = TemperatureComponent(this, 0.08, 900..2000, 2500, true)
         this.inventoryComponent = inventory(this) {
             input {
                 slot = 2

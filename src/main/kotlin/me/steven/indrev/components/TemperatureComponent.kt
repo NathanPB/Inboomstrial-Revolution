@@ -15,7 +15,8 @@ class TemperatureComponent(
     private val blockEntity: BaseBlockEntity,
     private val baseHeatingSpeed: Double,
     val optimalRange: IntRange,
-    val limit: Int
+    val limit: Int,
+    private val explodes: Boolean
 ) {
 
     var temperature: Double = 25.0
@@ -103,7 +104,11 @@ class TemperatureComponent(
         }
 
         if (shouldHeatUp || forceHeatUp) {
-            temperature = temperature.plus(getHeatingSpeed()).coerceAtLeast(35.0) + random.nextInt(10) - 5
+            temperature = temperature
+                .plus(getHeatingSpeed())
+                .coerceAtLeast(35.0)
+                .plus(random.nextInt(10) - 5)
+                .coerceAtMost(limit.toDouble())
         } else if (temperature > 35.0) {
             temperature -= getCoolingSpeed()
         } else if (ticks % 15 == 0) {
@@ -121,7 +126,7 @@ class TemperatureComponent(
             isKillswitchActivated = true
         }
 
-        if (temperature >= limit) {
+        if (explodes && temperature >= limit) {
             blockEntity.world?.createExplosion(
                 null,
                 blockEntity.pos.x.toDouble(),

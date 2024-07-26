@@ -13,7 +13,7 @@ class BiomassGeneratorBlockEntity(tier: Tier, pos: BlockPos, state: BlockState)
     : SolidFuelGeneratorBlockEntity(tier, MachineRegistry.BIOMASS_GENERATOR_REGISTRY, pos, state) {
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.08, 900..2000, 2500)
+        this.temperatureComponent = TemperatureComponent(this, 0.08, 900..2000, 2500, true)
         this.inventoryComponent = inventory(this) {
             input { slot = 2 }
         }

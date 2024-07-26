@@ -23,7 +23,7 @@ class GasBurningGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Generat
     private var maxBurnTime by autosync(TOTAL_BURN_TIME_ID, 0)
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.3, 2200..2400, 2500)
+        this.temperatureComponent = TemperatureComponent(this, 0.3, 2200..2400, 2500, false)
         this.inventoryComponent = inventory(this) {
             coolerSlot = 0
             output {

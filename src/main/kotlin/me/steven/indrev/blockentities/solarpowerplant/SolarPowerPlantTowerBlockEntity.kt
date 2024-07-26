@@ -17,7 +17,7 @@ class SolarPowerPlantTowerBlockEntity(pos: BlockPos, state: BlockState)
 
     override val guiSyncableComponent = GuiSyncableComponent()
 
-    val temperatureComponent = TemperatureComponent(this, 0.09, 1100..1300, 1500)
+    val temperatureComponent = TemperatureComponent(this, 0.09, 1100..1300, 1500, true)
     val multiblockComponent = SolarPowerPlantMultiblockComponent()
     val fluidComponent = object : FluidComponent({ this }, bucket * 16, 2) {
         init {

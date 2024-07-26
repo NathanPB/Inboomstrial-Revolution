@@ -16,7 +16,7 @@ class PulverizerBlockEntity(tier: Tier, pos: BlockPos, state: BlockState) :
     CraftingMachineBlockEntity<PulverizerRecipe>(tier, MachineRegistry.PULVERIZER_REGISTRY, pos, state) {
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.06, 700..1100, 1400)
+        this.temperatureComponent = TemperatureComponent(this, 0.06, 700..1100, 1400, true)
         this.enhancerComponent = EnhancerComponent(intArrayOf(5, 6, 7, 8), Enhancer.DEFAULT, this::getMaxCount)
         this.inventoryComponent = inventory(this) {
             input { slot = 2 }

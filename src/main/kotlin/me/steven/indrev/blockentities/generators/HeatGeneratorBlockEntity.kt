@@ -17,7 +17,7 @@ class HeatGeneratorBlockEntity(tier: Tier, pos: BlockPos, state: BlockState)
     private var maxBurnTime by autosync(GasBurningGeneratorBlockEntity.TOTAL_BURN_TIME_ID, 0)
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.8, 7000..9000, 10000)
+        this.temperatureComponent = TemperatureComponent(this, 0.8, 7000..9000, 10000, false)
         this.inventoryComponent = inventory(this) {
             input { slot = 2 }
         }

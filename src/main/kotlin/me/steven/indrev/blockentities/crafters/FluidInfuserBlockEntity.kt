@@ -19,7 +19,7 @@ class FluidInfuserBlockEntity(tier: Tier, pos: BlockPos, state: BlockState)
     : CraftingMachineBlockEntity<FluidInfuserRecipe>(tier, MachineRegistry.FLUID_INFUSER_REGISTRY, pos, state) {
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.06, 700..1100, 1400)
+        this.temperatureComponent = TemperatureComponent(this, 0.06, 700..1100, 1400, true)
         this.enhancerComponent = EnhancerComponent(intArrayOf(4, 5, 6, 7), Enhancer.DEFAULT, this::getMaxCount)
         this.inventoryComponent = inventory(this) {
             input { slot = 2 }

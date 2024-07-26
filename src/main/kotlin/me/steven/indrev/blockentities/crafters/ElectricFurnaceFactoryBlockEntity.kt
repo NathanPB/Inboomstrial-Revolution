@@ -21,7 +21,7 @@ class ElectricFurnaceFactoryBlockEntity(tier: Tier, pos: BlockPos, state: BlockS
     CraftingMachineBlockEntity<MixinAbstractCookingRecipe>(tier, MachineRegistry.ELECTRIC_FURNACE_FACTORY_REGISTRY, pos, state) {
 
     init {
-        this.temperatureComponent = TemperatureComponent(this, 0.1, 1300..1700, 2000)
+        this.temperatureComponent = TemperatureComponent(this, 0.1, 1300..1700, 2000, true)
         this.enhancerComponent = EnhancerComponent(intArrayOf(2, 3, 4, 5), Enhancer.FURNACE, this::getMaxCount)
         this.inventoryComponent = inventory(this) {
             input { slots = intArrayOf(6, 8, 10, 12, 14) }
