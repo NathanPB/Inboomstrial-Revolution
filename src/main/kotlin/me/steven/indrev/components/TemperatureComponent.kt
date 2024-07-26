@@ -45,7 +45,7 @@ class TemperatureComponent(
         val enhancerComponent = machine.enhancerComponent ?: return this.baseHeatingSpeed
 
         val speedEnhancersMultiplier = enhancerComponent.enhancers.getInt(Enhancer.SPEED).let { it * it }
-        val coolerFactor = ((machine.inventoryComponent?.inventory?.coolerStack?.item as? IRHeatFactorItem)?.heatFactor ?: 0.0) * 2
+        val coolerFactor = ((machine.inventoryComponent?.inventory?.coolerStack?.item as? IRHeatFactorItem)?.heatFactor ?: 0.0) * 1.5
 
         return this.baseHeatingSpeed * speedEnhancersMultiplier + coolerFactor + 1
     }
