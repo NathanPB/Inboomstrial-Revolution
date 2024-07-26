@@ -5,6 +5,7 @@ import me.steven.indrev.armor.IRArmorMaterial
 import me.steven.indrev.blocks.misc.NikoliteOreBlock
 import me.steven.indrev.items.armor.*
 import me.steven.indrev.items.energy.*
+import me.steven.indrev.items.heat.IRHeatFactorItem
 import me.steven.indrev.items.misc.*
 import me.steven.indrev.items.upgrade.Enhancer
 import me.steven.indrev.items.upgrade.IREnhancerItem
@@ -305,16 +306,17 @@ object IRItemRegistry {
 
     val BIOMASS = DEFAULT_ITEM()
 
-    val FAN = Item(itemSettings().maxDamage(128))
-    val COOLER_CELL = Item(itemSettings().maxDamage(512))
-    val HEATSINK = Item(itemSettings().maxDamage(1536))
-    val HEAT_COIL = object : Item(itemSettings().maxDamage(128)) {
+    val FAN = IRHeatFactorItem(itemSettings().maxDamage(128), -0.4)
+    val COOLER_CELL = IRHeatFactorItem(itemSettings().maxDamage(512), -0.7)
+    val HEATSINK = IRHeatFactorItem(itemSettings().maxDamage(1536), -1.0)
+    val HEAT_COIL = object : IRHeatFactorItem(itemSettings().maxDamage(128), 0.4) {
         override fun appendTooltip(
             stack: ItemStack?,
             world: World?,
             tooltip: MutableList<Text>?,
             context: TooltipContext?
         ) {
+            super.appendTooltip(stack, world, tooltip, context)
             tooltip?.add(translatable("item.indrev.heat_coil.tooltip").formatted(Formatting.BLUE))
         }
     }

@@ -2,13 +2,14 @@ package me.steven.indrev.components
 
 import me.steven.indrev.blockentities.BaseBlockEntity
 import me.steven.indrev.blockentities.MachineBlockEntity
-import me.steven.indrev.blockentities.crafters.CraftingMachineBlockEntity
+import me.steven.indrev.items.heat.IRHeatFactorItem
 import me.steven.indrev.items.upgrade.Enhancer
 import me.steven.indrev.registry.IRItemRegistry
 import me.steven.indrev.utils.component1
 import me.steven.indrev.utils.component2
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import kotlin.math.absoluteValue
 
 class TemperatureComponent(
     private val blockEntity: BaseBlockEntity,
@@ -36,20 +37,23 @@ class TemperatureComponent(
     }
 
     fun isFullEfficiency(): Boolean {
-        val machine = blockEntity as? MachineBlockEntity<*>
-        val inventoryComponent = machine?.inventoryComponent
-
-        return (!cooling || inventoryComponent?.inventory?.coolerStack?.isEmpty != true)
-                && temperature.toInt() in optimalRange
+        return temperature.toInt() in optimalRange
     }
 
     private fun getHeatingSpeed(): Double {
         val machine = blockEntity as? MachineBlockEntity<*> ?: return this.baseHeatingSpeed
         val enhancerComponent = machine.enhancerComponent ?: return this.baseHeatingSpeed
 
-        val speedEnhancers = enhancerComponent.enhancers.getInt(Enhancer.SPEED)
-        val multiplier = 1 + speedEnhancers * speedEnhancers
-        return this.baseHeatingSpeed * multiplier
+        val speedEnhancersMultiplier = enhancerComponent.enhancers.getInt(Enhancer.SPEED).let { it * it }
+        val coolerFactor = ((machine.inventoryComponent?.inventory?.coolerStack?.item as? IRHeatFactorItem)?.heatFactor ?: 0.0) * 2
+
+        return this.baseHeatingSpeed * speedEnhancersMultiplier + coolerFactor + 1
+    }
+
+    private fun getCoolingSpeed(): Double {
+        val machine = blockEntity as? MachineBlockEntity<*> ?: return this.baseHeatingSpeed / 1.5
+        val coolerItem = (machine.inventoryComponent?.inventory?.coolerStack?.item as? IRHeatFactorItem) ?: return this.baseHeatingSpeed / 1.5
+        return (coolerItem.heatFactor * -1).coerceAtLeast(0.0)
     }
 
     fun tick(shouldHeatUp: Boolean) {
@@ -60,7 +64,7 @@ class TemperatureComponent(
         val (coolerStack, coolerItem) = inv?.coolerStack ?: ItemStack.EMPTY
         val isHeatingUp = shouldHeatUp || (machine != null && when (coolerItem) {
             IRItemRegistry.HEAT_COIL -> { // Heat Coil will keep the temperature in about the first 10% of the optimal range, +- 5 degrees
-                val targetTemperature = (optimalRange.first + (optimalRange.last - optimalRange.first) * 0.1).toInt() + (machine.world?.random?.nextInt(10)?.minus(5) ?: 0)
+                val targetTemperature = (optimalRange.first + (optimalRange.last - optimalRange.first) * 0.1).toInt() + random.nextInt(10) - 5
                 temperature.toInt() <= targetTemperature && machine.use(16)
             }
             else -> false
@@ -70,9 +74,9 @@ class TemperatureComponent(
         if (coolerStack.damage >= coolerStack.maxDamage) coolerStack.decrement(1)
 
         if (isHeatingUp) {
-            temperature += getHeatingSpeed()
+            temperature = temperature.plus(getHeatingSpeed()).coerceAtLeast(35.0) + random.nextInt(10) - 5
         } else if (temperature > 35.0) {
-            temperature -= baseHeatingSpeed / 1.5
+            temperature -= getCoolingSpeed()
         } else if (ticks % 15 == 0) {
             temperature = (temperature + (2 * random.nextFloat() - 1) / 2).coerceIn(20.0, 35.0)
         }

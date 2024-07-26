@@ -294,6 +294,8 @@
   "item.indrev.smoker_enhancer.tooltip": "Allows Electric Furnace to accept Smoker recipes",
   "item.indrev.enhancers.incompatible": "This machine does not support this enhancer",
   "item.indrev.enhancers.count": "Limited by %s per slot by the machine",
+  "item.indrev.heat.cooler": "Cooler (Heat Factor: %s)",
+  "item.indrev.heat.heater": "Heater (Heat Factor: %s)",
   "item.indrev.rechargeable.tooltip": "Rechargeable",
   "item.indrev.chunk_scanner": "Chunk Scanner",
   "item.indrev.chunk_scanner.scanning": "Scanning...",

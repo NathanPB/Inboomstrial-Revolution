@@ -1,8 +1,8 @@
 package me.steven.indrev.inventories
 
-import me.steven.indrev.IndustrialRevolution
 import me.steven.indrev.blockentities.MachineBlockEntity
 import me.steven.indrev.components.InventoryComponent
+import me.steven.indrev.items.heat.IRHeatFactorItem
 import me.steven.indrev.items.upgrade.IREnhancerItem
 import me.steven.indrev.utils.EMPTY_INT_ARRAY
 import me.steven.indrev.utils.component1
@@ -60,7 +60,7 @@ open class IRInventoryDSL : Filterable() {
             else filters.computeIfAbsent(slot) {
                 { (stack, item), _ ->
                     when {
-                        coolerSlot != null && slot == coolerSlot -> stack.isIn(IndustrialRevolution.COOLERS_TAG)
+                        coolerSlot != null && slot == coolerSlot -> stack.item is IRHeatFactorItem
                         input.slots.contains(slot) -> true
                         enhancerComponent != null -> item is IREnhancerItem && slot in enhancerComponent.slots && !enhancerComponent.isLocked(slot, blockEntity.tier) && enhancerComponent.compatible.contains(item.enhancer)
                         else -> false

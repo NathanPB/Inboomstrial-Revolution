@@ -96,6 +96,8 @@
   "item.indrev.speed_upgrade": "Melhoria de velocidade",
   "item.indrev.speed_upgrade.tooltip": "Diminui o tempo de processamento da máquina",
   "item.indrev.speed_enhancer.tooltip_downside": "Fraqueza: As máquinas irão quentear mais rapidamente",
+  "item.indrev.heat.cooler": "Refrigerador (Fator de Calor: %s)",
+  "item.indrev.heat.heater": "Aquecedor (Fator de Calor: %s)",
   "item.indrev.rechargeable.tooltip": "Recarregável",
   "item.indrev.chunk_scanner": "Escaneador de terreno",
   "item.indrev.chunk_scanner.scanning": "Escaneando...",
