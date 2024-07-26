@@ -347,7 +347,7 @@ object IRItemRegistry {
     val NETHERITE_DRILL_HEAD = Item(itemSettings().maxDamage(4096))
 
     val BUFFER_ENHANCER = IREnhancerItem(itemSettings().maxCount(32), Enhancer.BUFFER)
-    val SPEED_UPGRADE = IREnhancerItem(itemSettings().maxCount(32), Enhancer.SPEED)
+    val SPEED_UPGRADE = IREnhancerItem(itemSettings().maxCount(32), Enhancer.SPEED, true)
     val BLAST_FURNACE_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.BLAST_FURNACE)
     val SMOKER_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.SMOKER)
     val DAMAGE_UPGRADE = IREnhancerItem(itemSettings().maxCount(1), Enhancer.DAMAGE)

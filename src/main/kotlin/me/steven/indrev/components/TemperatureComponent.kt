@@ -3,6 +3,7 @@ package me.steven.indrev.components
 import me.steven.indrev.blockentities.BaseBlockEntity
 import me.steven.indrev.blockentities.MachineBlockEntity
 import me.steven.indrev.blockentities.crafters.CraftingMachineBlockEntity
+import me.steven.indrev.items.upgrade.Enhancer
 import me.steven.indrev.registry.IRItemRegistry
 import me.steven.indrev.utils.component1
 import me.steven.indrev.utils.component2
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NbtCompound
 
 class TemperatureComponent(
     private val blockEntity: BaseBlockEntity,
-    private val heatingSpeed: Double,
+    private val baseHeatingSpeed: Double,
     val optimalRange: IntRange,
     val limit: Int
 ) {
@@ -47,6 +48,15 @@ class TemperatureComponent(
                 && temperature.toInt() in optimalRange
     }
 
+    private fun getHeatingSpeed(): Double {
+        val machine = blockEntity as? MachineBlockEntity<*> ?: return this.baseHeatingSpeed
+        val enhancerComponent = machine.enhancerComponent ?: return this.baseHeatingSpeed
+
+        val speedEnhancers = enhancerComponent.enhancers.getInt(Enhancer.SPEED)
+        val multiplier = 1 + speedEnhancers * speedEnhancers
+        return this.baseHeatingSpeed * multiplier
+    }
+
     fun tick(shouldHeatUp: Boolean) {
         ticks++
         val machine = blockEntity as? MachineBlockEntity<*>
@@ -57,7 +67,7 @@ class TemperatureComponent(
 
         if (cooling) {
             val modifier = (blockEntity as? CraftingMachineBlockEntity<*>)?.craftingComponents?.size ?: 0
-            temperature -= heatingSpeed / if (isHeatingUp) 3 + modifier else 1
+            temperature -= getHeatingSpeed() / if (isHeatingUp) 3 + modifier else 1
 
             if (coolerStack.isDamageable && ticks % 120 == 0)
                 coolerStack.damage(1, random, null)
@@ -69,9 +79,9 @@ class TemperatureComponent(
                 cooling = false
             }
         } else if (isHeatingUp) {
-            temperature += heatingSpeed
+            temperature += getHeatingSpeed()
         } else if (temperature > 35.0) {
-            temperature -= heatingSpeed / 1.5
+            temperature -= baseHeatingSpeed / 1.5
         } else if (ticks % 15 == 0) {
             temperature = (temperature + (2 * random.nextFloat() - 1) / 2).coerceIn(20.0, 35.0)
         }

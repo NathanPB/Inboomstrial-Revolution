@@ -15,9 +15,11 @@ import net.minecraft.util.Formatting
 import net.minecraft.world.World
 import java.util.*
 
-class IREnhancerItem(settings: Settings, val enhancer: Enhancer) : Item(settings) {
+class IREnhancerItem(settings: Settings, val enhancer: Enhancer, private val hasDownside: Boolean = false) : Item(settings) {
     override fun appendTooltip(stack: ItemStack?, world: World?, tooltip: MutableList<Text>?, context: TooltipContext?) {
         tooltip?.add(translatable("item.indrev.${enhancer.toString().lowercase(Locale.getDefault())}_enhancer.tooltip").formatted(Formatting.GREEN))
+        if (hasDownside) tooltip?.add(translatable("item.indrev.${enhancer.toString().lowercase(Locale.getDefault())}_enhancer.tooltip_downside").formatted(Formatting.RED))
+
         tooltip?.add(EMPTY)
         val currentScreen = MinecraftClient.getInstance().currentScreen
         if (currentScreen is IRInventoryScreen<*>) {

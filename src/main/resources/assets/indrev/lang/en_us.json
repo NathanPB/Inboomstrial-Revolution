@@ -287,6 +287,7 @@
   "item.indrev.damage_enhancer.tooltip": "Increases the damage done by a Slaughter",
   "item.indrev.speed_enhancer": "Speed Enhancer",
   "item.indrev.speed_enhancer.tooltip": "Increases processing speed and power consumption",
+  "item.indrev.speed_enhancer.tooltip_downside": "Downside: Machines will heat up much faster",
   "item.indrev.blast_furnace_enhancer": "Blasting Enhancer",
   "item.indrev.blast_furnace_enhancer.tooltip": "Allows the Electric Furnace to accept Blast Furnace recipes",
   "item.indrev.smoker_enhancer": "Smoking Enhancer",
