@@ -62,16 +62,23 @@ class TemperatureComponent(
         val random = blockEntity.world!!.random
         val inv = machine?.inventoryComponent?.inventory
         val (coolerStack, coolerItem) = inv?.coolerStack ?: ItemStack.EMPTY
+
+        fun consumeCooler() {
+            if (coolerStack.isDamageable && ticks % 120 == 0) coolerStack.damage(1, random, null)
+            if (coolerStack.damage >= coolerStack.maxDamage) coolerStack.decrement(1)
+        }
+
         val isHeatingUp = shouldHeatUp || (machine != null && when (coolerItem) {
             IRItemRegistry.HEAT_COIL -> { // Heat Coil will keep the temperature in about the first 10% of the optimal range, +- 5 degrees
                 val targetTemperature = (optimalRange.first + (optimalRange.last - optimalRange.first) * 0.1).toInt() + random.nextInt(10) - 5
-                temperature.toInt() <= targetTemperature && machine.use(16)
+                (temperature.toInt() <= targetTemperature && machine.use(16)).also { if (it) consumeCooler() }
+            }
+            is IRHeatFactorItem -> {
+                if (coolerItem.heatFactor < 0 && temperature > 35.0) consumeCooler()
+                false
             }
             else -> false
         })
-
-        if (coolerStack.isDamageable && ticks % 120 == 0) coolerStack.damage(1, random, null)
-        if (coolerStack.damage >= coolerStack.maxDamage) coolerStack.decrement(1)
 
         if (isHeatingUp) {
             temperature = temperature.plus(getHeatingSpeed()).coerceAtLeast(35.0) + random.nextInt(10) - 5
