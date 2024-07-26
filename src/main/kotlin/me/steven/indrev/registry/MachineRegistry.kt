@@ -161,14 +161,12 @@ class MachineRegistry(private val key: String, val upgradeable: Boolean = true, 
     }
 
     @Suppress("UNCHECKED_CAST")
-    @Environment(EnvType.CLIENT)
     fun <T : BlockEntity> registerBlockEntityRenderer(renderer: () -> BlockEntityRenderer<T>) {
         blockEntities.forEach { (_, type) ->
             BlockEntityRendererFactories.register(type as BlockEntityType<T>) { _ -> renderer() }
         }
     }
 
-    @Environment(EnvType.CLIENT)
     fun setRenderLayer(layer: RenderLayer) {
         blocks.forEach { (_, block) -> BlockRenderLayerMap.INSTANCE.putBlock(block, layer) }
     }
