@@ -70,10 +70,6 @@ class TemperatureComponent(
             }
         } else if (isHeatingUp) {
             temperature += heatingSpeed
-            val n = (optimalRange.last + optimalRange.first) / 2.0
-            if (temperature >= n + (2 * random.nextFloat() - 1) * 15) {
-                cooling = true
-            }
         } else if (temperature > 35.0) {
             temperature -= heatingSpeed / 1.5
         } else if (ticks % 15 == 0) {
